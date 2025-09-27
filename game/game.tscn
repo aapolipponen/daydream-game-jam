@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3pv503xh467v"]
+
+[ext_resource type="PackedScene" uid="uid://cdchti6oipqbh" path="res://Player/player.tscn" id="1_vasa2"]
+[ext_resource type="PackedScene" uid="uid://b47uj5no11yrh" path="res://explodingEnemy/explodingEnemy.tscn" id="2_h7iqs"]
+
+[node name="game" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_vasa2")]
+
+[node name="explodingEnemy" parent="." instance=ExtResource("2_h7iqs")]
+position = Vector2(472, 254)
+moveSpeed = 10
+whenExplodes = 5.0
+sizeIncreaseOnHit = 0.5

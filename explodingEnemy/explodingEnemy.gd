@@ -1,10 +1,15 @@
 extends CharacterBody2D
-
+class_name ExplodingEnemy
 
 # refrences to other nodes
 @onready var deathTimer: Timer = $deathTimer
 @onready var modulationRedTimer: Timer = $modulationRedTimer
 @onready var modulationDefaultTimer: Timer = $modulationDefaultTimer
+const player = preload("uid://cdchti6oipqbh")
+
+# movement vars
+@export var moveSpeed = 10
+
 
 # variables to do with the size and eventual explosion
 var size = 1
@@ -19,6 +24,9 @@ var deathModulate = Color(0.686, 0.0, 0.0, 1.0)
 
 func _ready() -> void:
 	defaultModulate = modulate
+	
+	
+	
 	
 
 
@@ -36,6 +44,12 @@ func _process(_delta: float) -> void:
 	scale.y = size
 	
 	scale = clamp(scale, Vector2(1, 1), Vector2(whenExplodes, whenExplodes))
+
+func _physics_process(_delta: float) -> void:
+	var direction = Vector2(player.position.x, player.position.y)
+	velocity = direction * moveSpeed
+	
+	move_and_slide()
 
 func explode():
 	exploding = true
