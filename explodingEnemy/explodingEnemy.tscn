@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://b47uj5no11yrh"]
+
+[ext_resource type="Script" uid="uid://bq8bec367ww63" path="res://explodingEnemy/explodingEnemy.gd" id="1_wnous"]
+[ext_resource type="Texture2D" uid="uid://b5n8mqx0r8yne" path="res://icon.svg" id="2_ewhxb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ekj2k"]
+radius = 14.142136
+
+[node name="explodingEnemy" type="CharacterBody2D"]
+script = ExtResource("1_wnous")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ekj2k")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ewhxb")
+
+[node name="deathTimer" type="Timer" parent="."]
+wait_time = 2.324
+
+[node name="modulationRedTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="modulationDefaultTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="deathTimer" to="." method="_on_death_timer_timeout"]
+[connection signal="timeout" from="modulationRedTimer" to="." method="_on_modulation_red_timer_timeout"]
+[connection signal="timeout" from="modulationDefaultTimer" to="." method="_on_modulation_default_timer_timeout"]
