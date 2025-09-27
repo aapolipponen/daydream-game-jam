@@ -7,7 +7,6 @@
 radius = 14.035668
 
 [node name="Triangle" type="RigidBody2D"]
-collision_mask = 3
 gravity_scale = 0.0
 script = ExtResource("1_lg153")
 

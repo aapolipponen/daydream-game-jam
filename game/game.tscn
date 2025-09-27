@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://d3pv503xh467v"]
+[gd_scene load_steps=7 format=3 uid="uid://d3pv503xh467v"]
 
 [ext_resource type="PackedScene" uid="uid://cdchti6oipqbh" path="res://Player/player.tscn" id="1_vasa2"]
 [ext_resource type="PackedScene" uid="uid://b47uj5no11yrh" path="res://explodingEnemy/explodingEnemy.tscn" id="2_h7iqs"]
 [ext_resource type="Texture2D" uid="uid://cnvb4qw45inh7" path="res://wall/WallSprite.svg" id="3_h7iqs"]
+[ext_resource type="PackedScene" uid="uid://bfii1m6aw4ga7" path="res://wall/explodable wall.tscn" id="4_4fuuu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4fuuu"]
 texture = ExtResource("3_h7iqs")
@@ -24,3 +25,7 @@ sizeIncreaseOnHit = 0.1
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_dxrkv")
+
+[node name="explodableWall" parent="." instance=ExtResource("4_4fuuu")]
+position = Vector2(191, 102.00003)
+scale = Vector2(0.1, 0.1)

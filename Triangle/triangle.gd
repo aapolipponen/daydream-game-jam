@@ -20,4 +20,4 @@ func shoot(direction: Vector2, force: float, lifetime: float) -> void:
 func _on_body_entered(body: Node) -> void:
 	if body.has_method("onHit"):
 		body.onHit()
-		print("Collided")
+		queue_free()

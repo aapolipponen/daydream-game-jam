@@ -6,6 +6,7 @@ class_name ExplodingEnemy
 @onready var modulationRedTimer: Timer = $modulationRedTimer
 @onready var modulationDefaultTimer: Timer = $modulationDefaultTimer
 var player: Player
+@onready var explosionCollision: CollisionShape2D = $explostionArea/explosionCollision
 
 # movement vars
 @export var moveSpeed = 10
@@ -47,6 +48,7 @@ func _process(_delta: float) -> void:
 	scale.y = size
 	
 	scale = clamp(scale, Vector2(0, 0), Vector2(whenExplodes, whenExplodes))
+	
 
 func _physics_process(_delta: float) -> void:
 	# Try to find the player if we didn't get it earlier or it got freed
@@ -72,24 +74,29 @@ func explode():
 	
 	modulate = deathModulate
 	modulationRedTimer.start()
-	print("redtimer started")
 	
 	deathTimer.start()
 	
 
 
 func _on_death_timer_timeout() -> void:
+	explosionCollision.disabled = false
 	queue_free()
 
 
 func _on_modulation_red_timer_timeout() -> void:
 	modulate = defaultModulate
 	modulationDefaultTimer.start()
-	print("default triggered")
 	
 
 
 func _on_modulation_default_timer_timeout() -> void:
 	modulate = deathModulate
 	modulationRedTimer.start()
-	print("red triggered")
+
+
+
+
+
+func _on_explostion_area_body_entered(body: Node2D) -> void:
+	print("_on_explostion_area_body_entered")
