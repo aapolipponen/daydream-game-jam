@@ -5,7 +5,7 @@ class_name ExplodingEnemy
 @onready var deathTimer: Timer = $deathTimer
 @onready var modulationRedTimer: Timer = $modulationRedTimer
 @onready var modulationDefaultTimer: Timer = $modulationDefaultTimer
-const player = preload("uid://cdchti6oipqbh")
+var player: Player
 
 # movement vars
 @export var moveSpeed = 10
@@ -23,16 +23,15 @@ var defaultModulate
 var deathModulate = Color(0.686, 0.0, 0.0, 1.0)
 
 func _ready() -> void:
+	# get player refrence
+	player = get_tree().get_first_node_in_group("player")
+	
+	# set modulation to the default
 	defaultModulate = modulate
-	
-	
-	
-	
 
-
+# call when the entity is hit
 func onHit():
 	size += sizeIncreaseOnHit
-
 
 
 func _process(_delta: float) -> void:
@@ -46,9 +45,22 @@ func _process(_delta: float) -> void:
 	scale = clamp(scale, Vector2(1, 1), Vector2(whenExplodes, whenExplodes))
 
 func _physics_process(_delta: float) -> void:
-	var direction = Vector2(player.position.x, player.position.y)
-	velocity = direction * moveSpeed
-	
+	# Try to find the player if we didn't get it earlier or it got freed
+	if player == null or not is_instance_valid(player):
+		var nodes = get_tree().get_nodes_in_group("player")
+		if nodes.size() > 0:
+			player = nodes[0] as Node2D  # or 'as Player' if you have that class
+		else:
+			return # no player found yet
+
+	# Compute vector from this enemy to the player (difference)
+	var to_player = player.global_position - global_position
+	if to_player.length() > 0.001:
+		var direction = to_player.normalized()
+		velocity = direction * moveSpeed   # for CharacterBody2D, set velocity and call move_and_slide()
+	else:
+		velocity = Vector2.ZERO
+
 	move_and_slide()
 
 func explode():
