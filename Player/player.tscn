@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cdchti6oipqbh"]
+[gd_scene load_steps=5 format=3 uid="uid://cdchti6oipqbh"]
 
 [ext_resource type="Script" uid="uid://umia7332wdn6" path="res://Player/player.gd" id="1_4ntmi"]
-[ext_resource type="Texture2D" uid="uid://b5n8mqx0r8yne" path="res://icon.svg" id="2_btcbx"]
+[ext_resource type="Texture2D" uid="uid://c3jykr1irbr1c" path="res://Player/PlayerSprite.svg" id="2_btcbx"]
+[ext_resource type="Script" uid="uid://b7frhtkp084ku" path="res://Player/triangle_manager.gd" id="3_btcbx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_px5sl"]
 size = Vector2(64, 64)
@@ -9,9 +10,15 @@ size = Vector2(64, 64)
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 motion_mode = 1
 script = ExtResource("1_4ntmi")
+mass = 10000.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_px5sl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-4.7683716e-07, 26)
+scale = Vector2(0.17490552, 0.17490551)
 texture = ExtResource("2_btcbx")
+
+[node name="TriangleManager" type="Node" parent="."]
+script = ExtResource("3_btcbx")
