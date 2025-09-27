@@ -83,7 +83,8 @@ func explode():
 func _on_death_timer_timeout() -> void:
 	explosionCollision.disabled = false
 	cpu_particles_2d.emitting = true
-	print("set emitting to true")
+	var scoreLabel = get_tree().get_first_node_in_group("scoreLabel")
+	scoreLabel.textInt += 1
 	queue_free()
 
 

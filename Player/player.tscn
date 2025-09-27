@@ -25,6 +25,3 @@ script = ExtResource("3_btcbx")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, -1)
 shape = SubResource("RectangleShape2D_btcbx")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position_smoothing_enabled = true
