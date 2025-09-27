@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://glg2jenobeuq"]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_y0561"]
+points = PackedVector2Array(-16, 0, 0, -28, 16, 0)
+
+[node name="Triangle" type="RigidBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("ConvexPolygonShape2D_y0561")
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
