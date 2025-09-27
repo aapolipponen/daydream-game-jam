@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-@export var speed = 400
-@export var friction := 0.01
+@export var speed = 500
+@export var friction := 0.03
 var target = position
 
 func get_input():
