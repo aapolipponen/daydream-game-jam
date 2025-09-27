@@ -3,16 +3,18 @@ extends Node
 @export var triangle_count: int = 100
 @export var follow_distance: float = 100.0
 @export var follow_speed: float = 200.0
-@export var follow_smoothing: float = 100000.0
+@export var follow_smoothing: float = 10000.0
 @export var repulsion_distance: float = 100.0
 @export var repulsion_strength: float = 50000.0
-@export var repulsion_power: float = 3.0  # 1 = linear, 2 = quadratic, etc.
+@export var repulsion_power: float = 2.0  # 1 = linear, 2 = quadratic, etc.
 @export var shoot_force: float = 1000.0
 @export var shot_lifetime: float = 1.5
 
 var triangle_scene: PackedScene = preload("res://Triangle/triangle.tscn")
 var triangles: Array = []
 var player: Node2D = null
+var highlighted: RigidBody2D = null
+var camera: Camera2D = null
 
 func _ready() -> void:
 	# Get player reference once
@@ -21,6 +23,8 @@ func _ready() -> void:
 		push_error("No player found in 'player' group!")
 		return
 	
+	# Get camera reference
+	camera = get_viewport().get_camera_2d()
 	
 	spawn_triangles(triangle_count)
 
@@ -91,12 +95,10 @@ func _physics_process(delta: float) -> void:
 	if player == null or not is_instance_valid(player):
 		return
 	update_triangle_following(delta)
+	update_highlight()
 
-func _input(event):
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		shoot_closest_triangle(event.position)
-
-func shoot_closest_triangle(mouse_pos: Vector2) -> void:
+func update_highlight() -> void:
+	var mouse_world: Vector2 = _get_mouse_world_pos()
 	var closest: RigidBody2D = null
 	var best_dist: float = INF
 	for t in triangles:
@@ -104,13 +106,36 @@ func shoot_closest_triangle(mouse_pos: Vector2) -> void:
 			continue
 		if t.has_meta("shot") and t.get_meta("shot"):
 			continue
-		var d: float = t.global_position.distance_to(mouse_pos)
+		var d = t.global_position.distance_to(mouse_world)
 		if d < best_dist:
 			best_dist = d
 			closest = t
-	if closest == null:
+	if closest == highlighted:
+		return  # nothing changed
+	# Clear previous highlight
+	if is_instance_valid(highlighted) and highlighted.has_method("set_highlight"):
+		highlighted.set_highlight(false)
+	highlighted = closest
+	if is_instance_valid(highlighted) and highlighted.has_method("set_highlight"):
+		highlighted.set_highlight(true)
+
+func _input(event):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		shoot_highlighted_triangle()
+
+func _get_mouse_world_pos() -> Vector2:
+	var screen_pos: Vector2 = get_viewport().get_mouse_position()
+	var xform := get_viewport().get_canvas_transform()
+	return xform.affine_inverse() * screen_pos
+
+func shoot_highlighted_triangle() -> void:
+	if highlighted == null or not is_instance_valid(highlighted):
 		return
-	# Mark and shoot
-	closest.set_meta("shot", true)
-	var dir := (mouse_pos - closest.global_position).normalized()
-	closest.call_deferred("shoot", dir, shoot_force, shot_lifetime)
+	var mouse_world := _get_mouse_world_pos()
+	# Mark, shoot and clear highlight
+	highlighted.set_meta("shot", true)
+	if highlighted.has_method("set_highlight"):
+		highlighted.set_highlight(false)
+	var dir := (mouse_world - highlighted.global_position).normalized()
+	highlighted.call_deferred("shoot", dir, shoot_force, shot_lifetime)
+	highlighted = null
