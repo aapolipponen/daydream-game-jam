@@ -1,8 +1,15 @@
-[gd_scene format=3 uid="uid://r1ehvg8ijerh"]
+[gd_scene load_steps=2 format=3 uid="uid://v1nf3i1fi6du"]
 
-[node name="Gameui" type="CanvasLayer"]
+[ext_resource type="Script" uid="uid://dmqs4geut31vw" path="res://game/label.gd" id="1_e3x5u"]
+
+[node name="Gameui" type="CanvasLayer" groups=["gameui"]]
 
 [node name="Label" type="Label" parent="."]
-offset_right = 91.0
-offset_bottom = 45.0
+offset_left = -5.0
+offset_top = 3.0
+offset_right = 86.0
+offset_bottom = 55.0
 text = "Teksi"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("1_e3x5u")

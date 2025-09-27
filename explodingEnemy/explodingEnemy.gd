@@ -9,6 +9,7 @@ var player: Player
 @onready var explosionCollision: CollisionShape2D = $explostionArea/explosionCollision
 @onready var cpu_particles_2d: CPUParticles2D = $CPUParticles2D
 
+
 # movement vars
 @export var moveSpeed = 10
 
@@ -81,9 +82,8 @@ func explode():
 
 
 func _on_death_timer_timeout() -> void:
-	explosionCollision.disabled = false
 	cpu_particles_2d.emitting = true
-	var scoreLabel = get_tree().get_first_node_in_group("scoreLabel")
+	var scoreLabel = get_tree().get_first_node_in_group("gameui").get_child(0)
 	scoreLabel.textInt += 1
 	queue_free()
 
@@ -97,10 +97,3 @@ func _on_modulation_red_timer_timeout() -> void:
 func _on_modulation_default_timer_timeout() -> void:
 	modulate = deathModulate
 	modulationRedTimer.start()
-
-
-
-
-
-func _on_explostion_area_body_entered(body: Node2D) -> void:
-	print("_on_explostion_area_body_entered")

@@ -149,6 +149,6 @@ func _process(delta: float) -> void:
 			trianglesLeft = true
 	
 	if trianglesLeft == false:
-		get_tree().change_scene_to_packed(GAME_OVER_SCENE)
+		get_parent().endGame()
 		
 	

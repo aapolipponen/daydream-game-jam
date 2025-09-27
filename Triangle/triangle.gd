@@ -26,7 +26,6 @@ func _on_body_entered(body: Node) -> void:
 	if body.has_method("onHit"):
 		body.onHit()
 		queue_free()
-		print("Collided")
 
 var _sprite: Sprite2D
 
