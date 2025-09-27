@@ -39,6 +39,10 @@ func _process(_delta: float) -> void:
 		if size >= whenExplodes:
 			explode()
 	
+	if exploding == true:
+		velocity.x = 0
+		velocity.y = 0
+	
 	scale.x = size
 	scale.y = size
 	
