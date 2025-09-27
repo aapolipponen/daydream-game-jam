@@ -2,6 +2,11 @@ extends RigidBody2D
 
 var is_shot: bool = false
 
+# Enable contact monitoring so that `body_entered` signal is emitted.
+func _ready() -> void:
+	contact_monitor = true
+	max_contacts_reported = 10  # any positive value enables the signal
+
 func shoot(direction: Vector2, force: float, lifetime: float) -> void:
 	if is_shot:
 		return
@@ -13,5 +18,6 @@ func shoot(direction: Vector2, force: float, lifetime: float) -> void:
 	timer.timeout.connect(queue_free)
 
 func _on_body_entered(body: Node) -> void:
-	print("Collided")
-	body.onHit()
+	if body.has_method("onHit"):
+		body.onHit()
+		print("Collided")
