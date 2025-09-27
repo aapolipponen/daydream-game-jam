@@ -1,7 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://d3pv503xh467v"]
+[gd_scene load_steps=6 format=3 uid="uid://d3pv503xh467v"]
 
 [ext_resource type="PackedScene" uid="uid://cdchti6oipqbh" path="res://Player/player.tscn" id="1_vasa2"]
 [ext_resource type="PackedScene" uid="uid://b47uj5no11yrh" path="res://explodingEnemy/explodingEnemy.tscn" id="2_h7iqs"]
+[ext_resource type="Texture2D" uid="uid://cnvb4qw45inh7" path="res://wall/WallSprite.svg" id="3_h7iqs"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4fuuu"]
+texture = ExtResource("3_h7iqs")
+19:34/0 = 0
+19:34/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_dxrkv"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_4fuuu")
 
 [node name="game" type="Node2D"]
 
@@ -9,3 +19,6 @@
 
 [node name="explodingEnemy" parent="." instance=ExtResource("2_h7iqs")]
 position = Vector2(472, 254)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_dxrkv")
