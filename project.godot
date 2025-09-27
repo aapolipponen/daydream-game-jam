@@ -46,3 +46,7 @@ right={
 
 2d_physics/layer_2="Player"
 2d_physics/layer_3="explodable wall"
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0.16924527, 0.1692453, 0.16924521, 1)
