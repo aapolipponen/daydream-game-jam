@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://r1ehvg8ijerh"]
+
+[node name="Gameui" type="CanvasLayer"]
+
+[node name="Label" type="Label" parent="."]
+offset_right = 91.0
+offset_bottom = 45.0
+text = "Teksi"
