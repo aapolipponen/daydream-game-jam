@@ -9,6 +9,4 @@
 
 [node name="explodingEnemy" parent="." instance=ExtResource("2_h7iqs")]
 position = Vector2(472, 254)
-moveSpeed = 10
-whenExplodes = 5.0
-sizeIncreaseOnHit = 0.5
+moveSpeed = 80
