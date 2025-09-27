@@ -4,16 +4,15 @@
 [ext_resource type="Texture2D" uid="uid://c3jykr1irbr1c" path="res://Player/PlayerSprite.svg" id="2_btcbx"]
 [ext_resource type="Script" uid="uid://b7frhtkp084ku" path="res://Player/triangle_manager.gd" id="3_btcbx"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_px5sl"]
-size = Vector2(64, 64)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_btcbx"]
+size = Vector2(64, 66)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 2
+collision_mask = 2
 motion_mode = 1
 script = ExtResource("1_4ntmi")
-mass = 10000.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_px5sl")
+mass = 1000.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-4.7683716e-07, 26)
@@ -22,3 +21,7 @@ texture = ExtResource("2_btcbx")
 
 [node name="TriangleManager" type="Node" parent="."]
 script = ExtResource("3_btcbx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -1)
+shape = SubResource("RectangleShape2D_btcbx")

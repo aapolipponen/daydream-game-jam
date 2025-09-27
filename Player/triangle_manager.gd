@@ -1,9 +1,14 @@
 extends Node
 
-@export var triangle_count: int = 10
+@export var triangle_count: int = 100
 @export var follow_distance: float = 100.0
-@export var follow_speed: float = 100.0
-@export var follow_smoothing: float = 100.0
+@export var follow_speed: float = 200.0
+@export var follow_smoothing: float = 100000.0
+@export var repulsion_distance: float = 100.0
+@export var repulsion_strength: float = 50000.0
+@export var repulsion_power: float = 3.0  # 1 = linear, 2 = quadratic, etc.
+@export var shoot_force: float = 1000.0
+@export var shot_lifetime: float = 1.5
 
 var triangle_scene: PackedScene = preload("res://Triangle/triangle.tscn")
 var triangles: Array = []
@@ -44,7 +49,6 @@ func update_triangles() -> void:
 		for i in range(triangle_count - current):
 			var triangle = triangle_scene.instantiate()
 			add_child(triangle)
-			triangle.position = Vector2(50 * (current + i), 0)
 			
 			triangles.append(triangle)
 	elif triangle_count < current:
@@ -57,63 +61,56 @@ func update_triangle_following(delta: float) -> void:
 	for triangle in triangles:
 		if not is_instance_valid(triangle):
 			continue
-		
-		var distance_to_player = player.global_position.distance_to(triangle.global_position)
-		
-		# Only follow if beyond the follow distance
-		if distance_to_player > follow_distance:
-			var direction = (player.global_position - triangle.global_position).normalized()
+		if triangle.has_meta("shot") and triangle.get_meta("shot"):
+			continue  # ignore shot triangles
 
-			# Retrieve current velocity stored in metadata (default to zero)
-			var vel: Vector2 = triangle.get_meta("vel") if triangle.has_meta("vel") else Vector2.ZERO
+		var distance: float = player.global_position.distance_to(triangle.global_position)
+		var direction: Vector2 = (player.global_position - triangle.global_position).normalized()
 
-			# Compute target velocity toward the player
-			var target_velocity: Vector2 = direction * follow_speed
+		# Determine desired velocity based on distance
+		var target_velocity: Vector2 = Vector2.ZERO
 
-			# Smoothly interpolate velocity
-			vel = vel.move_toward(target_velocity, follow_smoothing * delta)
+		# 1. Non-linear repulsion when too close
+		if distance < repulsion_distance:
+			var ratio: float = 1.0 - distance / repulsion_distance  # 0 at boundary, 1 at distance 0
+			var strength: float = repulsion_strength * pow(ratio, repulsion_power)
+			target_velocity = -direction * strength
+		# 2. Otherwise follow if far enough
+		elif distance > follow_distance:
+			target_velocity = direction * follow_speed
 
-			# Store updated velocity
-			triangle.set_meta("vel", vel)
+		# Retrieve and smoothly interpolate current velocity
+		var vel: Vector2 = triangle.get_meta("vel") if triangle.has_meta("vel") else Vector2.ZERO
+		vel = vel.move_toward(target_velocity, follow_smoothing * delta)
 
-			# Move triangle manually (Area2D has no built-in physics movement)
-			triangle.position += vel * delta
+		# Persist and apply velocity
+		triangle.set_meta("vel", vel)
+		triangle.linear_velocity = vel
 
-		else:
-			# Gradually slow down when within follow distance
-			var vel: Vector2 = triangle.get_meta("vel") if triangle.has_meta("vel") else Vector2.ZERO
-			vel = vel.move_toward(Vector2.ZERO, follow_smoothing * delta)
-			triangle.set_meta("vel", vel)
-			triangle.position += vel * delta
-
-	# --- Helper to make triangles avoid overlapping with each other ---
-const SEPARATION_DISTANCE: float = 200.0
-const SEPARATION_FORCE: float = 2000.0
-
-func _apply_separation(delta: float) -> void:
-	for i in range(triangles.size()):
-		var a: Node2D = triangles[i]
-		if not is_instance_valid(a):
-			continue
-		var a_vel: Vector2 = a.get_meta("vel") if a.has_meta("vel") else Vector2.ZERO
-		for j in range(i + 1, triangles.size()):
-			var b: Node2D = triangles[j]
-			if not is_instance_valid(b):
-				continue
-			var diff: Vector2 = a.global_position - b.global_position
-			var dist_sq: float = diff.length_squared()
-			if dist_sq == 0 or dist_sq > SEPARATION_DISTANCE * SEPARATION_DISTANCE:
-				continue
-			var dir: Vector2 = diff.normalized()
-			var push: Vector2 = dir * SEPARATION_FORCE * delta / max(dist_sq, 1)
-			a_vel += push
-			var b_vel: Vector2 = b.get_meta("vel") if b.has_meta("vel") else Vector2.ZERO
-			b_vel -= push
-			a.set_meta("vel", a_vel)
-			b.set_meta("vel", b_vel)
-
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if player == null or not is_instance_valid(player):
 		return
 	update_triangle_following(delta)
-	_apply_separation(delta)
+
+func _input(event):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		shoot_closest_triangle(event.position)
+
+func shoot_closest_triangle(mouse_pos: Vector2) -> void:
+	var closest: RigidBody2D = null
+	var best_dist: float = INF
+	for t in triangles:
+		if not is_instance_valid(t):
+			continue
+		if t.has_meta("shot") and t.get_meta("shot"):
+			continue
+		var d: float = t.global_position.distance_to(mouse_pos)
+		if d < best_dist:
+			best_dist = d
+			closest = t
+	if closest == null:
+		return
+	# Mark and shoot
+	closest.set_meta("shot", true)
+	var dir := (mouse_pos - closest.global_position).normalized()
+	closest.call_deferred("shoot", dir, shoot_force, shot_lifetime)
