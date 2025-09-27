@@ -12,7 +12,7 @@ var player: Player
 
 
 # variables to do with the size and eventual explosion
-var size = 1
+var size = 0.5
 @export var whenExplodes: float = 5
 var exploding: bool = false
 @export var sizeIncreaseOnHit = 0.5
@@ -46,7 +46,7 @@ func _process(_delta: float) -> void:
 	scale.x = size
 	scale.y = size
 	
-	scale = clamp(scale, Vector2(1, 1), Vector2(whenExplodes, whenExplodes))
+	scale = clamp(scale, Vector2(0, 0), Vector2(whenExplodes, whenExplodes))
 
 func _physics_process(_delta: float) -> void:
 	# Try to find the player if we didn't get it earlier or it got freed
