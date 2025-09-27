@@ -25,9 +25,7 @@ func shoot(direction: Vector2, force: float, lifetime: float) -> void:
 func _on_body_entered(body: Node) -> void:
 	if body.has_method("onHit"):
 		body.onHit()
-<<<<<<< HEAD
 		queue_free()
-=======
 		print("Collided")
 
 var _sprite: Sprite2D
@@ -69,4 +67,3 @@ func set_highlight(enable: bool) -> void:
 	is_highlighted = enable
 	if _sprite:
 		_sprite.material = highlight_material if enable else null
->>>>>>> aa5aa2638fe32eedf865913793f941491ca0b2f5

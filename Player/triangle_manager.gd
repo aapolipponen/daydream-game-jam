@@ -9,6 +9,7 @@ extends Node
 @export var repulsion_power: float = 2.0  # 1 = linear, 2 = quadratic, etc.
 @export var shoot_force: float = 1000.0
 @export var shot_lifetime: float = 1.5
+const GAME_OVER_SCENE = preload("uid://cuvqcrafju4nu")
 
 var triangle_scene: PackedScene = preload("res://Triangle/triangle.tscn")
 var triangles: Array = []
@@ -139,3 +140,15 @@ func shoot_highlighted_triangle() -> void:
 	var dir := (mouse_world - highlighted.global_position).normalized()
 	highlighted.call_deferred("shoot", dir, shoot_force, shot_lifetime)
 	highlighted = null
+
+
+func _process(delta: float) -> void:
+	var trianglesLeft := false
+	for i in triangles:
+		if is_instance_valid(i):
+			trianglesLeft = true
+	
+	if trianglesLeft == false:
+		get_tree().change_scene_to_packed(GAME_OVER_SCENE)
+		
+	

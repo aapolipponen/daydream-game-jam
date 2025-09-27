@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuvqcrafju4nu"]
+
+[ext_resource type="Script" uid="uid://c58dl6txxbq4l" path="res://sacrifisable entity/game_over_scene.gd" id="1_7xf2v"]
+
+[node name="gameOverScene" type="Node"]
+script = ExtResource("1_7xf2v")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 253.0
+offset_top = 74.0
+offset_right = 896.0
+offset_bottom = 352.0
+theme_override_font_sizes/font_size = 100
+text = "you died
+＼（〇_ｏ）／"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="retry button" type="Button" parent="."]
+offset_left = 345.0
+offset_top = 424.0
+offset_right = 840.0
+offset_bottom = 569.0
+theme_override_colors/font_color = Color(0.44609624, 0.49254155, 0.18945724, 1)
+theme_override_colors/font_focus_color = Color(0.44705883, 0.49411765, 0.1882353, 1)
+theme_override_colors/font_pressed_color = Color(0.44705883, 0.49411765, 0.1882353, 1)
+theme_override_colors/font_hover_color = Color(0.44705883, 0.49411765, 0.1882353, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.44705883, 0.49411765, 0.1882353, 1)
+theme_override_font_sizes/font_size = 70
+text = "Try again?"
+
+[connection signal="button_down" from="retry button" to="." method="_on_button_button_down"]
