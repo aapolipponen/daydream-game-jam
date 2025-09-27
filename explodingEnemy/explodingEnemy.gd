@@ -7,6 +7,7 @@ class_name ExplodingEnemy
 @onready var modulationDefaultTimer: Timer = $modulationDefaultTimer
 var player: Player
 @onready var explosionCollision: CollisionShape2D = $explostionArea/explosionCollision
+@onready var cpu_particles_2d: CPUParticles2D = $CPUParticles2D
 
 # movement vars
 @export var moveSpeed = 10
@@ -81,6 +82,8 @@ func explode():
 
 func _on_death_timer_timeout() -> void:
 	explosionCollision.disabled = false
+	cpu_particles_2d.emitting = true
+	print("set emitting to true")
 	queue_free()
 
 

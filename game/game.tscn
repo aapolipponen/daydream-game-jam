@@ -1,10 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://d3pv503xh467v"]
+[gd_scene load_steps=5 format=3 uid="uid://d3pv503xh467v"]
 
 [ext_resource type="PackedScene" uid="uid://cdchti6oipqbh" path="res://Player/player.tscn" id="1_vasa2"]
 [ext_resource type="PackedScene" uid="uid://m1tgw830i1jp" path="res://sacrifisable entity/start_enemy_spawner.tscn" id="3_4fuuu"]
 [ext_resource type="PackedScene" uid="uid://dlf6judxyx11u" path="res://sacrifisable entity/enemy_spawner.tscn" id="3_h7iqs"]
+[ext_resource type="Texture2D" uid="uid://ccbyc60tij6td" path="res://wall/grid.png" id="4_4fuuu"]
 
 [node name="game" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -77629.0
+offset_top = -34505.0
+offset_right = 64207.0
+offset_bottom = 43451.0
+texture = ExtResource("4_4fuuu")
+stretch_mode = 1
 
 [node name="Player" parent="." instance=ExtResource("1_vasa2")]
 

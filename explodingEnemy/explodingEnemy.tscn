@@ -39,8 +39,10 @@ one_shot = true
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 emitting = false
+amount = 50
 one_shot = true
 explosiveness = 1.0
+spread = 180.0
 gravity = Vector2(0, 0)
 color = Color(0.71, 0.14909998, 0.2145384, 1)
 

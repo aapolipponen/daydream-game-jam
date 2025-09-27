@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bc1axve0v1fy3"]
+
+[ext_resource type="Texture2D" uid="uid://cnvb4qw45inh7" path="res://wall/WallSprite.svg" id="1_278ad"]
+[ext_resource type="PackedScene" uid="uid://duji7jabsqfmp" path="res://sacrifisable entity/line.tscn" id="2_g3b74"]
+
+[node name="Sprite2D" type="Sprite2D"]
+modulate = Color(0.43016636, 0.43016636, 0.4366271, 1)
+self_modulate = Color(2.0284429, 2.0284429, 2.0284429, 1)
+position = Vector2(-354, -10)
+scale = Vector2(0.07861635, 1)
+texture = ExtResource("1_278ad")
+
+[node name="Sprite2D3" parent="." instance=ExtResource("2_g3b74")]
+position = Vector2(-2613.9595, -1.5214233)

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://duji7jabsqfmp"]
+
+[ext_resource type="Texture2D" uid="uid://cnvb4qw45inh7" path="res://wall/WallSprite.svg" id="1_wa0hx"]
+
+[node name="Sprite2D3" type="Sprite2D"]
+position = Vector2(-283, -390)
+scale = Vector2(0.5757836, 2.3871946)
+texture = ExtResource("1_wa0hx")
+region_enabled = true
+region_rect = Rect2(285.5, 431.5, 185, 275)
