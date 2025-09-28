@@ -7,7 +7,6 @@ class_name ExplodingEnemy
 @onready var modulationDefaultTimer: Timer = $modulationDefaultTimer
 var player: Player
 @onready var explosionCollision: CollisionShape2D = $explostionArea/explosionCollision
-@onready var cpu_particles_2d: CPUParticles2D = $CPUParticles2D
 
 
 # movement vars
@@ -36,7 +35,6 @@ func _ready() -> void:
 func onHit():
 	size += sizeIncreaseOnHit
 
-
 func _process(_delta: float) -> void:
 	if exploding == false:
 		if size >= whenExplodes:
@@ -50,7 +48,6 @@ func _process(_delta: float) -> void:
 	scale.y = size
 	
 	scale = clamp(scale, Vector2(0, 0), Vector2(whenExplodes, whenExplodes))
-	
 
 func _physics_process(_delta: float) -> void:
 	# Try to find the player if we didn't get it earlier or it got freed
@@ -78,11 +75,9 @@ func explode():
 	modulationRedTimer.start()
 	
 	deathTimer.start()
-	
-
 
 func _on_death_timer_timeout() -> void:
-	cpu_particles_2d.emitting = true
+	#deathParticles.emitting = true
 	var scoreLabel = get_tree().get_first_node_in_group("gameui").get_child(0)
 	scoreLabel.textInt += 1
 	queue_free()

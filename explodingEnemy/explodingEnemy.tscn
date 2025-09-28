@@ -9,7 +9,7 @@ radius = 264.1212
 [sub_resource type="CircleShape2D" id="CircleShape2D_ewhxb"]
 radius = 152.0
 
-[node name="explodingEnemy" type="CharacterBody2D" groups=["enemy"]]
+[node name="explodingEnemy" type="CharacterBody2D" groups=["enemy", "explodingEnemy"]]
 scale = Vector2(0.5, 0.5)
 collision_layer = 3
 collision_mask = 3
@@ -36,15 +36,6 @@ one_shot = true
 [node name="modulationDefaultTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-emitting = false
-amount = 50
-one_shot = true
-explosiveness = 1.0
-spread = 180.0
-gravity = Vector2(0, 0)
-color = Color(0.71, 0.14909998, 0.2145384, 1)
 
 [node name="explostionArea" type="Area2D" parent="."]
 collision_mask = 5

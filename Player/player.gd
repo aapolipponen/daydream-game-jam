@@ -27,9 +27,15 @@ func _process(delta: float) -> void:
 	print(points)
 
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	get_input()
 	move_and_slide()
+	for i in range(get_slide_collision_count()):
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		if collider and collider.is_in_group("ExplodingEnemy"):
+			print("Collided with enemy:", collider.name)
+			endGame()
 
 func endGame():
 	var gameOverScene = GAME_OVER_SCENE.instantiate()
