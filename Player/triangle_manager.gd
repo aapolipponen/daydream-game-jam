@@ -17,7 +17,22 @@ var player: Node2D = null
 var highlighted: RigidBody2D = null
 var camera: Camera2D = null
 
+# CanvasModulate for red flash
+var _canvas_modulate: CanvasModulate = null
+
+# --- Damage visual feedback vars ---
+@export var shake_magnitude: float = 10.0
+@export var shake_duration: float = 0.3
+var _shake_timer: float = 0.0
+
+@export var flash_intensity: float = 0.4  # 0..1 alpha interpreted as red strength
+@export var flash_decay: float = 2.0      # how quickly flash fades per second
+var _flash_alpha: float = 0.0
+
 func _ready() -> void:
+	# Ensure we have a CanvasModulate for flash effect
+	_canvas_modulate = get_tree().get_first_node_in_group("damage_flash")
+
 	# Get player reference once
 	player = get_tree().get_first_node_in_group("player")
 	if player == null:
@@ -28,7 +43,6 @@ func _ready() -> void:
 	camera = get_viewport().get_camera_2d()
 	
 	spawn_triangles(triangle_count)
-
 
 func set_triangle_count(new_count: int) -> void:
 	if new_count == triangle_count:
@@ -141,8 +155,8 @@ func shoot_highlighted_triangle() -> void:
 	highlighted.call_deferred("shoot", dir, shoot_force, shot_lifetime)
 	highlighted = null
 
-
 func _process(delta: float) -> void:
+	_update_damage_effect(delta)
 	var trianglesLeft := false
 	for i in triangles:
 		if is_instance_valid(i):
@@ -150,5 +164,27 @@ func _process(delta: float) -> void:
 	
 	if trianglesLeft == false:
 		get_parent().endGame()
-		
-	
+
+# Update camera shake and red flash each frame
+func _update_damage_effect(delta: float) -> void:
+	if camera == null or not is_instance_valid(camera):
+		return
+
+	# Screen shake
+	if _shake_timer > 0.0:
+		_shake_timer -= delta
+		var strength := _shake_timer / shake_duration
+		var offset := Vector2(randf()*2.0 - 1.0, randf()*2.0 - 1.0) * shake_magnitude * strength
+		camera.offset = offset
+	else:
+		camera.offset = Vector2.ZERO
+
+	# Red flash using viewport canvas modulate
+	if _canvas_modulate:
+		if _flash_alpha > 0.0:
+			_flash_alpha = max(_flash_alpha - flash_decay * delta, 0.0)
+		var mod_color := Color(1, 1.0 - _flash_alpha, 1.0 - _flash_alpha)
+		_canvas_modulate.color = mod_color
+	else:
+		# Ensure color resets
+		_canvas_modulate.color = Color.WHITE
