@@ -24,16 +24,17 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	points = int(scoreLabel.text)
+	for i in range(get_slide_collision_count()):
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		if collider and collider.is_in_group("explodingEnemy"):
+			var newTriangleCount = triangle_manager.triangle_count - 15
+			triangle_manager.set_triangle_count(newTriangleCount)
 
 
 func _physics_process(delta):
 	get_input()
 	move_and_slide()
-	for i in range(get_slide_collision_count()):
-		var collision = get_slide_collision(i)
-		var collider = collision.get_collider()
-		if collider and collider.is_in_group("explodingEnemy"):
-			triangle_manager.triangle_count -= 15
 
 func endGame():
 	var gameOverScene = GAME_OVER_SCENE.instantiate()
