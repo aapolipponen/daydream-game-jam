@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://v1nf3i1fi6du"]
+[gd_scene load_steps=5 format=3 uid="uid://v1nf3i1fi6du"]
 
 [ext_resource type="Script" uid="uid://dmqs4geut31vw" path="res://game/label.gd" id="1_e3x5u"]
+[ext_resource type="Shader" uid="uid://gc5stjhsfjtx" path="res://game/gameui.gdshader" id="2_tkh00"]
+[ext_resource type="Script" uid="uid://bpf1maoxu1wbf" path="res://game/color_rect.gd" id="3_dyw44"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0d5d2"]
+shader = ExtResource("2_tkh00")
+shader_parameter/radius = 1.0
+shader_parameter/softness = 0.5
+shader_parameter/vignette_color = Color(0.4, 0, 0, 0.6)
 
 [node name="Gameui" type="CanvasLayer" groups=["gameui"]]
 
@@ -13,3 +21,11 @@ text = "Teksi"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("1_e3x5u")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+self_modulate = Color(0.73, 0, 0, 1)
+material = SubResource("ShaderMaterial_0d5d2")
+offset_right = 1153.0
+offset_bottom = 650.0
+script = ExtResource("3_dyw44")

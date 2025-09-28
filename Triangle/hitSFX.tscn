@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bop5o4cjkv6mf"]
+
+[ext_resource type="AudioStream" uid="uid://dixn8sfugtfby" path="res://addons/kenney impact sounds/impact_metal_heavy_003.ogg" id="1_3hi6y"]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_3hi6y")

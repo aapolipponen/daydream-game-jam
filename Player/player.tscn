@@ -1,11 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://cdchti6oipqbh"]
+[gd_scene load_steps=6 format=3 uid="uid://cdchti6oipqbh"]
 
 [ext_resource type="Script" uid="uid://umia7332wdn6" path="res://Player/player.gd" id="1_4ntmi"]
 [ext_resource type="Texture2D" uid="uid://c3jykr1irbr1c" path="res://Player/PlayerSprite.svg" id="2_btcbx"]
 [ext_resource type="Script" uid="uid://b7frhtkp084ku" path="res://Player/triangle_manager.gd" id="3_btcbx"]
+[ext_resource type="AudioStream" uid="uid://dhjw5ajgexsuq" path="res://addons/kenney impact sounds/impact_plank_medium_002.ogg" id="4_gwnis"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_btcbx"]
-size = Vector2(64, 66)
+[sub_resource type="CircleShape2D" id="CircleShape2D_btcbx"]
+radius = 32.0
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
@@ -23,5 +24,15 @@ texture = ExtResource("2_btcbx")
 script = ExtResource("3_btcbx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, -1)
-shape = SubResource("RectangleShape2D_btcbx")
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_btcbx")
+
+[node name="damageFlashTimer" type="Timer" parent="."]
+wait_time = 0.215
+one_shot = true
+
+[node name="takeDamageSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_gwnis")
+volume_db = 15.0
+
+[connection signal="timeout" from="damageFlashTimer" to="." method="_on_damage_flash_timer_timeout"]

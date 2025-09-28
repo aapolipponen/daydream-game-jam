@@ -3,6 +3,7 @@ extends RigidBody2D
 var is_shot: bool = false
 var is_highlighted: bool = false
 var highlight_material: ShaderMaterial = null
+var hitSFX
 
 # Enable contact monitoring so that `body_entered` signal is emitted.
 func _ready() -> void:
@@ -11,6 +12,8 @@ func _ready() -> void:
 	# Cache sprite reference for highlighting
 	_sprite = get_node("Sprite2D")
 	_create_highlight_material()
+	
+	hitSFX = get_tree().get_first_node_in_group("hitSFX")
 
 func shoot(direction: Vector2, force: float, lifetime: float) -> void:
 	if is_shot:
@@ -25,6 +28,7 @@ func shoot(direction: Vector2, force: float, lifetime: float) -> void:
 func _on_body_entered(body: Node) -> void:
 	if body.has_method("onHit"):
 		body.onHit()
+		hitSFX.play()
 		queue_free()
 
 var _sprite: Sprite2D

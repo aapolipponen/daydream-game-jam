@@ -6,7 +6,8 @@ class_name ExplodingEnemy
 @onready var modulationRedTimer: Timer = $modulationRedTimer
 @onready var modulationDefaultTimer: Timer = $modulationDefaultTimer
 var player: Player
-@onready var explosionCollision: CollisionShape2D = $explostionArea/explosionCollision
+@onready var hitModulationTimer: Timer = $hitModulationTimer
+
 
 
 # movement vars
@@ -34,6 +35,9 @@ func _ready() -> void:
 # call when the entity is hit
 func onHit():
 	size += sizeIncreaseOnHit
+	modulate = Color(0.573, 0.0, 0.0, 1.0)
+	hitModulationTimer.start()
+	
 
 func _process(_delta: float) -> void:
 	if exploding == false:
@@ -82,6 +86,8 @@ func _on_death_timer_timeout() -> void:
 	scoreLabel.textInt += 1
 	var newCount = player.get_child(1).triangle_count + 5
 	player.get_child(1).set_triangle_count(newCount)
+	var sfx = get_tree().get_first_node_in_group("enemyExplosionSFX")
+	sfx.play()
 	queue_free()
 
 func _on_modulation_red_timer_timeout() -> void:
@@ -91,3 +97,7 @@ func _on_modulation_red_timer_timeout() -> void:
 func _on_modulation_default_timer_timeout() -> void:
 	modulate = deathModulate
 	modulationRedTimer.start()
+
+
+func _on_hit_modulation_timer_timeout() -> void:
+	modulate = defaultModulate

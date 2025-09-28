@@ -4,11 +4,18 @@ class_name Player
 @onready var enemy_spawner_manager: Node = $"../enemySpawnerManager"
 @onready var triangle_manager: Node = $TriangleManager
 const GAME_OVER_SCENE = preload("uid://cuvqcrafju4nu")
+@onready var damage_flash_timer: Timer = $damageFlashTimer
+@onready var take_damage_sfx: AudioStreamPlayer2D = $takeDamageSFX
 
 @export var speed = 500
 @export var mass := 0.03
 @export var damage_cooldown: float = 0.5  # seconds between taking damage
 var target = position
+
+var damageModulate = Color(0.63, 0.0, 0.0, 1.0)
+var defaultModulate
+
+var ui
 
 # Internal timer tracking remaining invulnerability after taking damage
 var _damage_timer: float = 0.0
@@ -24,6 +31,7 @@ func get_input():
 
 func _ready() -> void:
 	scoreLabel = get_tree().get_first_node_in_group("gameui").get_child(0)
+	defaultModulate = get_parent().modulate
 
 func _process(delta: float) -> void:
 	# Handle damage cooldown timer
@@ -40,6 +48,11 @@ func _process(delta: float) -> void:
 			if _damage_timer == 0.0:
 				var newTriangleCount = triangle_manager.triangle_count - 15
 				triangle_manager.set_triangle_count(newTriangleCount)
+				get_parent().modulate = damageModulate
+				ui = get_tree().get_first_node_in_group("gameui")
+				ui.get_child(1).visible = true
+				take_damage_sfx.play()
+				damage_flash_timer.start()
 				_damage_timer = damage_cooldown
 				if triangle_manager.has_method("trigger_damage_effect"):
 					triangle_manager.trigger_damage_effect()
@@ -58,3 +71,8 @@ func endGame():
 	get_tree().current_scene = gameOverScene
 	if old_scene:
 		old_scene.queue_free()
+
+
+func _on_damage_flash_timer_timeout() -> void:
+	get_parent().modulate = defaultModulate
+	ui.get_child(1).visible = false
