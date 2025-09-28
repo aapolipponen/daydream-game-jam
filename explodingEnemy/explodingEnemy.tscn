@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://b47uj5no11yrh"]
+[gd_scene load_steps=5 format=3 uid="uid://b47uj5no11yrh"]
 
 [ext_resource type="Script" uid="uid://bq8bec367ww63" path="res://explodingEnemy/explodingEnemy.gd" id="1_wnous"]
 [ext_resource type="Texture2D" uid="uid://dnkm7roc4nll5" path="res://explodingEnemy/EnemySprite_2.svg" id="2_ewhxb"]
+[ext_resource type="AudioStream" uid="uid://bab07pwdwqwxw" path="res://addons/kenney impact sounds/footstep_snow_003.ogg" id="3_jhalg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ekj2k"]
 radius = 244.13112
@@ -12,7 +13,7 @@ collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_wnous")
 moveSpeed = 60
-whenExplodes = 1.0
+whenExplodes = 0.9
 sizeIncreaseOnHit = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -36,6 +37,10 @@ one_shot = true
 
 [node name="hitModulationTimer" type="Timer" parent="."]
 wait_time = 0.1
+
+[node name="explosionSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_jhalg")
+volume_db = 15.0
 
 [connection signal="timeout" from="deathTimer" to="." method="_on_death_timer_timeout"]
 [connection signal="timeout" from="modulationRedTimer" to="." method="_on_modulation_red_timer_timeout"]

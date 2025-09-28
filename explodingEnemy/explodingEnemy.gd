@@ -7,6 +7,7 @@ class_name ExplodingEnemy
 @onready var modulationDefaultTimer: Timer = $modulationDefaultTimer
 var player: Player
 @onready var hitModulationTimer: Timer = $hitModulationTimer
+@onready var explosion_sfx: AudioStreamPlayer2D = $explosionSFX
 
 
 
@@ -35,8 +36,9 @@ func _ready() -> void:
 # call when the entity is hit
 func onHit():
 	size += sizeIncreaseOnHit
-	modulate = Color(0.573, 0.0, 0.0, 1.0)
-	hitModulationTimer.start()
+	if exploding == false:
+		modulate = Color(1.0, 0.0, 0.017, 1.0)
+		hitModulationTimer.start()
 	
 
 func _process(_delta: float) -> void:
@@ -74,6 +76,7 @@ func _physics_process(_delta: float) -> void:
 
 func explode():
 	exploding = true
+	explosion_sfx.play()
 	
 	modulate = deathModulate
 	modulationRedTimer.start()
@@ -96,8 +99,10 @@ func _on_modulation_red_timer_timeout() -> void:
 
 func _on_modulation_default_timer_timeout() -> void:
 	modulate = deathModulate
+	explosion_sfx.play()
 	modulationRedTimer.start()
 
 
 func _on_hit_modulation_timer_timeout() -> void:
 	modulate = defaultModulate
+	
