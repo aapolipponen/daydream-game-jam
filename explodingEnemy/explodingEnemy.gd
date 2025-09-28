@@ -80,6 +80,8 @@ func _on_death_timer_timeout() -> void:
 	#deathParticles.emitting = true
 	var scoreLabel = get_tree().get_first_node_in_group("gameui").get_child(0)
 	scoreLabel.textInt += 1
+	var newCount = player.get_child(1).triangle_count + 5
+	player.get_child(1).set_triangle_count(newCount)
 	queue_free()
 
 func _on_modulation_red_timer_timeout() -> void:
