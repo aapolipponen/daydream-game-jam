@@ -2,5 +2,5 @@ extends Label
 
 var textInt: int = 0
 
-func _process(float):
+func _process(_float):
 	text = str(textInt)
