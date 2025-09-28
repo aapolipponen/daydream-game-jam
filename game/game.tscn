@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://m1tgw830i1jp" path="res://sacrifisable entity/start_enemy_spawner.tscn" id="3_4fuuu"]
 [ext_resource type="PackedScene" uid="uid://dlf6judxyx11u" path="res://sacrifisable entity/enemy_spawner.tscn" id="3_h7iqs"]
 [ext_resource type="Texture2D" uid="uid://ccbyc60tij6td" path="res://wall/grid.png" id="4_4fuuu"]
-[ext_resource type="PackedScene" uid="uid://v1nf3i1fi6du" path="res://game/gameui.tscn" id="5_dxrkv"]
+[ext_resource type="PackedScene" uid="uid://r1ehvg8ijerh" path="res://game/gameui.tscn" id="5_dxrkv"]
 [ext_resource type="AudioStream" uid="uid://dlree8nsnw7p5" path="res://daydream.wav" id="6_dakft"]
 [ext_resource type="PackedScene" uid="uid://bop5o4cjkv6mf" path="res://Triangle/hitSFX.tscn" id="7_u5opy"]
 [ext_resource type="AudioStream" uid="uid://dkce8fw2qmwq0" path="res://addons/kenney impact sounds/footstep_carpet_002.ogg" id="8_y36n6"]
