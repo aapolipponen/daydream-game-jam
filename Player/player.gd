@@ -24,7 +24,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	points = int(scoreLabel.text)
-	print(points)
 
 
 func _physics_process(delta):
@@ -33,9 +32,8 @@ func _physics_process(delta):
 	for i in range(get_slide_collision_count()):
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
-		if collider and collider.is_in_group("ExplodingEnemy"):
-			print("Collided with enemy:", collider.name)
-			endGame()
+		if collider and collider.is_in_group("explodingEnemy"):
+			triangle_manager.triangle_count -= 15
 
 func endGame():
 	var gameOverScene = GAME_OVER_SCENE.instantiate()

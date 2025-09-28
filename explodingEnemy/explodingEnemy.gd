@@ -82,12 +82,9 @@ func _on_death_timer_timeout() -> void:
 	scoreLabel.textInt += 1
 	queue_free()
 
-
 func _on_modulation_red_timer_timeout() -> void:
 	modulate = defaultModulate
 	modulationDefaultTimer.start()
-	
-
 
 func _on_modulation_default_timer_timeout() -> void:
 	modulate = deathModulate

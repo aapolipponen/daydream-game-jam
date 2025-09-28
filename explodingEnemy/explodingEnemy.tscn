@@ -46,4 +46,3 @@ shape = SubResource("CircleShape2D_ewhxb")
 [connection signal="timeout" from="deathTimer" to="." method="_on_death_timer_timeout"]
 [connection signal="timeout" from="modulationRedTimer" to="." method="_on_modulation_red_timer_timeout"]
 [connection signal="timeout" from="modulationDefaultTimer" to="." method="_on_modulation_default_timer_timeout"]
-[connection signal="body_entered" from="explostionArea" to="." method="_on_explostion_area_body_entered"]
